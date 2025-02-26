@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Signup</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom, #87CEEB, #1E90FF);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            overflow: hidden;
+        }
+        h2 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            background: black;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+            letter-spacing: 2px;
+            animation: glow 1.5s infinite alternate;
+        }
+
+
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            box-shadow: 30px 15px 30px rgba(255, 255, 255, 0.6);
+            display: none;
+            transition: opacity 0.5s ease-in-out;
+            width: 250px; /* Increased width */
+            height: 140px; /* Increased height */
+            padding-top: 20px; /* To position input naturally */
+            text-align: center;
+        }
+
+        .cloud input, .cloud button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: white;
+            font-size: 1rem;
+            text-align: center;
+            box-sizing: border-box;
+            margin-top: 5px;
+            
+        }
+
+        .cloud button {
+            background: #007BFF;
+            color: white;
+            cursor: pointer;
+        }
+
+        .cloud button:hover {
+            background: #0056b3;
+        }
+
+        .moving-cloud {
+            position: absolute;
+            width: 150px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            box-shadow: 30px 15px 30px rgba(255, 255, 255, 0.6);
+            animation: moveClouds 20s linear infinite;
+            opacity: 0.9;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        @keyframes moveClouds {
+            from {
+                transform: translateX(-100vw);
+            }
+            to {
+                transform: translateX(100vw);
+            }
+        }
+        @keyframes floatCloud {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .cloud {
+            animation: floatCloud 5s ease-in-out infinite;
+        }
+        @keyframes skyGradient {
+            0% { background: linear-gradient(to bottom, #87CEEB, #1E90FF); }
+            50% { background: linear-gradient(to bottom, #6CB2EB, #187BCD); }
+            100% { background: linear-gradient(to bottom, #87CEEB, #1E90FF); }
+        }
+        body {
+            animation: skyGradient 10s infinite alternate;
+        }
+        @media screen and (max-width: 600px) {
+            .cloud {
+                width: 80%;
+                height: auto;
+                padding: 10px;
+            }
+        }
+        @keyframes glow {
+            0% { text-shadow: 0px 0px 10px #ff8c00, 0px 0px 20px #ff0080; }
+            100% { text-shadow: 0px 0px 20px #ff4500, 0px 0px 30px #ff1493; }
+        }
+        @keyframes floatText {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+            100% { transform: translateY(0px); }
+        }
+        h2 {
+            animation: floatText 3s ease-in-out infinite;
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <h2>Signup</h2>
+
+    <!-- Moving Clouds -->
+    <div class="moving-cloud" style="top: 10%; left: -20%;"></div>
+    <div class="moving-cloud" style="top: 30%; left: -30%; animation-duration: 25s;"></div>
+    <div class="moving-cloud" style="top: 50%; left: -10%; animation-duration: 30s;"></div>
+
+    <form class="signup-form" action="/send_otp" method="post">
+        <div class="cloud" id="cloud1" style="top: 10%; left: 15%; display: block;">
+            <input type="text" name="fname" required placeholder="First name" oninput="showNext(2)">
+        </div>
+        <div class="cloud" id="cloud2" style="top: 20%; left: 55%;">
+            <input type="text" name="lname" required placeholder="Last name" oninput="showNext(3)">
+        </div>
+        <div class="cloud" id="cloud3" style="top: 30%; left: 20%;">
+            <input type="date" id="dob" name="dob" required oninput="showNext(4)">
+        </div>
+        <div class="cloud" id="cloud4" style="top: 40%; left: 60%;">
+            <input type="number" name="phno" required placeholder="Phone number" oninput="showNext(5)">
+        </div>
+        <div class="cloud" id="cloud5" style="top: 50%; left: 25%;">
+            <input type="email" name="email" required placeholder="Email" oninput="showNext(6)">
+        </div>
+        <div class="cloud" id="cloud6" style="top: 60%; left: 65%;">
+            <input type="password" name="password" required placeholder="Password" oninput="showNext(7)">
+        </div>
+        <div class="cloud" id="cloud7" style="top: 70%; left: 30%;">
+            <input type="password" name="cpassword" required placeholder="Confirm password" oninput="showNext(8)">
+        </div>
+        <div class="cloud" id="cloud8" style="top: 80%; left: 50%;">
+            <button type="submit">Send OTP</button>
+        </div>
+    </form>
+
+    <script>
+        function showNext(cloudNumber) {
+            document.getElementById(`cloud${cloudNumber - 1}`).style.display = 'block';
+            if (cloudNumber <= 8) {
+                document.getElementById(`cloud${cloudNumber}`).style.display = 'block';
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            let movingClouds = document.querySelectorAll(".moving-cloud");
+            let inputClouds = document.querySelectorAll(".cloud");
+
+            function checkOverlap() {
+                movingClouds.forEach(movingCloud => {
+                    let movingRect = movingCloud.getBoundingClientRect();
+                    let isOverlapping = false;
+
+                    inputClouds.forEach(inputCloud => {
+                        let inputRect = inputCloud.getBoundingClientRect();
+
+                        if (
+                            movingRect.left < inputRect.right &&
+                            movingRect.right > inputRect.left &&
+                            movingRect.top < inputRect.bottom &&
+                            movingRect.bottom > inputRect.top
+                        ) {
+                            isOverlapping = true;
+                        }
+                    });
+
+                    movingCloud.style.opacity = isOverlapping ? 0.4 : 0.9;
+                });
+            }
+
+            setInterval(checkOverlap, 100);
+        });
+    </script>
+</body>
+</html>
